@@ -28,14 +28,14 @@ namespace PdfExportCloudHttpFunction2
             // トライアル版または製品版のライセンスキーを設定
             //GcPdfDocument.SetLicenseKey("");
 
-            GcPdfDocument doc = new GcPdfDocument();
+            GcPdfDocument doc = new();
             GcPdfGraphics g = doc.NewPage().Graphics;
 
             g.DrawString(Message,
                 new TextFormat() { Font = StandardFonts.Helvetica, FontSize = 12 },
                 new PointF(72, 72));
 
-            using MemoryStream outputstream = new MemoryStream();
+            using MemoryStream outputstream = new();
             StorageClient sc = StorageClient.Create();
             doc.Save(outputstream, false);
             await sc.UploadObjectAsync("diodocs-export", "Result.pdf", "application/pdf", outputstream);
